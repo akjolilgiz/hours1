@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>Department Search Result</h1>
+
+@if (@Model.Count ==0)
+{
+  <h4>There is no department matched.</h4>
+}
+
+<div class="lists">
+  @foreach (var department in Model)
+  {
+  <div class="foreach">
+    <h4>
+      <a href='/departments/@department.id'>@department.name</a>
+    </h4>
+    <a href="/departments/@department.id/update" class="btn btn-secondary">Update</a>
+    <a href="/departments/@department.id/delete" class="btn btn-secondary">Delete</a>
+  </div>
+  }
+</div>
+
+<a href='/departments/new'><button class='btn btn-info'>Add Department</button></a>
+<a href='/departments/'><button class='btn btn-info'>View All Departments</button></a>
+<a href="/departments"><button class="btn btn-info">View All Departments</button></a>
+@Html.Partial("_SearchBar", "departments")

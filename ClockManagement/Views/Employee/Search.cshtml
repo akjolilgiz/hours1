@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>Employee Search Result</h1>
+
+@if (@Model.Count ==0)
+{
+  <h4>There is no employee matched.</h4>
+}
+
+<div class="lists">
+  @foreach (var employee in Model)
+  {
+  <div class="foreach">
+    <h4>
+      <a href='/employees/@employee.id'>@employee.name</a>
+    </h4>
+    <a href="/employees/@employee.id/update" class="btn btn-secondary">Update</a>
+    <a href="/employees/@employee.id/delete" class="btn btn-secondary">Delete</a>
+  </div>
+  }
+</div>
+
+<a href='/employees/new'><button class='btn btn-info'>Add Employee</button></a>
+<a href='/employees/'><button class='btn btn-info'>View All Employees</button></a>
+<a href="/employees"><button class="btn btn-info">View All Employees</button></a>
+@Html.Partial("_SearchBar", "employees")

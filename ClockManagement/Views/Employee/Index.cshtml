@@ -1,0 +1,34 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>CLIENTS</h1>
+@if (@Model["allDepartments"].Count == 0)
+{
+  <h4>There is no department to add employee</h4>
+  <p>Please create departments first</p>
+
+  <a href = '/departments'><button class='btn btn-info'>View Departments</button></a>
+  <a href="/"><button class="btn btn-info">Back Home</button></a>
+}
+else
+{
+  @if (@Model["allEmployees"].Count == 0)
+  {
+    <h4>There is no employee</h4>
+  }
+
+  <div class="lists">
+    @foreach (var employee in @Model["allEmployees"])
+    {
+      <div class="foreach">
+        <h4><a href='/employees/@employee.id'>@employee.name</a> | <a href="/employees/@employee.id/update">Update</a> | <a href="/employees/@employee.id/delete">Delete</a></h4>
+      </div>
+    }
+  </div>
+
+  <a href = '/employees/new'><button class='btn btn-info'>Add Employee</button></a>
+  <a href = '/departments'><button class='btn btn-info'>View Departments</button></a>
+  <a href="/"><button class="btn btn-info">Back Home</button></a>
+  @Html.Partial("_SearchBar", "employees")
+}
