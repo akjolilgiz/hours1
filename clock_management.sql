@@ -19,19 +19,19 @@ USE `clock_management`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `department`
+-- Table structure for table `departments`
 --
 
-CREATE TABLE `department` (
+CREATE TABLE `departments` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `department`
+-- Dumping data for table `departments`
 --
 
-INSERT INTO `department` (`id`, `name`) VALUES
+INSERT INTO `departments` (`id`, `name`) VALUES
 (1, 'Marketing'),
 (2, 'Operations'),
 (3, 'Finance'),
@@ -40,10 +40,10 @@ INSERT INTO `department` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `departments_employees`
+-- Table structure for table `departments_employeess`
 --
 
-CREATE TABLE `departments_employees` (
+CREATE TABLE `departments_employeess` (
   `id` int(11) NOT NULL,
   `department_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL
@@ -52,19 +52,19 @@ CREATE TABLE `departments_employees` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employee`
+-- Table structure for table `employees`
 --
 
-CREATE TABLE `employee` (
+CREATE TABLE `employees` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `employee`
+-- Dumping data for table `employees`
 --
 
-INSERT INTO `employee` (`id`, `name`) VALUES
+INSERT INTO `employees` (`id`, `name`) VALUES
 (1, 'Mel Yasuda'),
 (2, 'Akjol Jaenbai'),
 (3, 'Chan Lee'),
@@ -92,21 +92,21 @@ INSERT INTO `employee` (`id`, `name`) VALUES
 --
 
 --
--- Indexes for table `department`
+-- Indexes for table `departments`
 --
-ALTER TABLE `department`
+ALTER TABLE `departments`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `departments_employees`
+-- Indexes for table `departments_employeess`
 --
-ALTER TABLE `departments_employees`
+ALTER TABLE `departments_employeess`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `employee`
+-- Indexes for table `employees`
 --
-ALTER TABLE `employee`
+ALTER TABLE `employeess`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -114,19 +114,19 @@ ALTER TABLE `employee`
 --
 
 --
--- AUTO_INCREMENT for table `department`
+-- AUTO_INCREMENT for table `departments`
 --
-ALTER TABLE `department`
+ALTER TABLE `departments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `departments_employees`
+-- AUTO_INCREMENT for table `departments_employeess`
 --
-ALTER TABLE `departments_employees`
+ALTER TABLE `departments_employeess`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `employee`
+-- AUTO_INCREMENT for table `employees`
 --
-ALTER TABLE `employee`
+ALTER TABLE `employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlEmployee;
+using MySql.Data.MySqlClient;
 
 namespace ClockManagement.Models
 {
@@ -241,6 +241,36 @@ namespace ClockManagement.Models
         conn.Dispose();
       }
       return employees;
+    }
+
+    public static List<Department> SearchDepartment(string departmentName)
+    {
+      List<Department> allDepartments = new List<Department>{};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+
+      cmd.CommandText = @"SELECT * FROM departments WHERE name LIKE @searchName;";
+
+      cmd.Parameters.AddWithValue("@searchName", "%" + departmentName + "%");
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      while (rdr.Read())
+      {
+        int departmentId = rdr.GetInt32(0);
+        string departmentsName = rdr.GetString(1);
+
+        Department newDepartment = new Department (departmentsName, departmentId);
+        allDepartments.Add(newDepartment);
+
+      }
+      conn.Close();
+      if (conn !=null)
+      {
+        conn.Dispose();
+      }
+      return allDepartments;
     }
   }
 }

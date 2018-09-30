@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ClockManagement.Models;
+using System.Collections.Generic;
+
 namespace ClockManagement.Controllers
 {
   public class DepartmentController : Controller

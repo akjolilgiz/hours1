@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlEmployee;
+using MySql.Data.MySqlClient;
 
 namespace ClockManagement.Models
 {
-  public class Department
+  public class Employee
   {
     public int id {get; set;}
     public string name {get; set;}
@@ -12,7 +12,7 @@ namespace ClockManagement.Models
     public Employee (string Name, int employeeId=0)
     {
       id = employeeId;
-      name = employeeName;
+      name = Name;
     }
 
     public override bool Equals(System.Object otherEmployee)
@@ -185,17 +185,17 @@ namespace ClockManagement.Models
       }
     }
 
-    public void AddStylist(Stylist newStylist)
+    public void AddDepartment(Department newDepartment)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO stylists_employees (stylist_id, employee_id) VALUES (@StylistId, @EmployeeId);";
+      cmd.CommandText = @"INSERT INTO departments_employees (department_id, employee_id) VALUES (@DepartmentId, @EmployeeId);";
 
-      MySqlParameter stylistId = new MySqlParameter();
-      stylistId.ParameterName = "@StylistId";
-      stylistId.Value = newStylist.id;
-      cmd.Parameters.Add(stylistId);
+      MySqlParameter departmentId = new MySqlParameter();
+      departmentId.ParameterName = "@DepartmentId";
+      departmentId.Value = newDepartment.id;
+      cmd.Parameters.Add(departmentId);
 
       MySqlParameter employeeId = new MySqlParameter();
       employeeId.ParameterName = "@EmployeeId";
@@ -211,12 +211,12 @@ namespace ClockManagement.Models
     }
 
 
-    public List<Stylist> GetStylists()
+    public List<Department> GetDepartments()
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT stylist_id FROM stylists_employees WHERE employee_id = @employeeId;";
+      cmd.CommandText = @"SELECT department_id FROM departments_employees WHERE employee_id = @employeeId;";
 
       MySqlParameter employeeIdParameter = new MySqlParameter();
       employeeIdParameter.ParameterName = "@employeeId";
@@ -225,41 +225,41 @@ namespace ClockManagement.Models
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
 
-      List<int> stylistIds = new List<int> {};
+      List<int> departmentIds = new List<int> {};
       while(rdr.Read())
       {
-        int stylistId = rdr.GetInt32(0);
-        stylistIds.Add(stylistId);
+        int departmentId = rdr.GetInt32(0);
+        departmentIds.Add(departmentId);
       }
       rdr.Dispose();
 
-      List<Stylist> stylists = new List<Stylist> {};
-      foreach (int stylistId in stylistIds)
+      List<Department> departments = new List<Department> {};
+      foreach (int departmentId in departmentIds)
       {
-        var stylistQuery = conn.CreateCommand() as MySqlCommand;
-        stylistQuery.CommandText = @"SELECT * FROM stylists WHERE id = @StylistId;";
+        var departmentQuery = conn.CreateCommand() as MySqlCommand;
+        departmentQuery.CommandText = @"SELECT * FROM departments WHERE id = @DepartmentId;";
 
-        MySqlParameter stylistIdParameter = new MySqlParameter();
-        stylistIdParameter.ParameterName = "@StylistId";
-        stylistIdParameter.Value = stylistId;
-        stylistQuery.Parameters.Add(stylistIdParameter);
+        MySqlParameter departmentIdParameter = new MySqlParameter();
+        departmentIdParameter.ParameterName = "@DepartmentId";
+        departmentIdParameter.Value = departmentId;
+        departmentQuery.Parameters.Add(departmentIdParameter);
 
-        var stylistQueryRdr = stylistQuery.ExecuteReader() as MySqlDataReader;
-        while(stylistQueryRdr.Read())
+        var departmentQueryRdr = departmentQuery.ExecuteReader() as MySqlDataReader;
+        while(departmentQueryRdr.Read())
         {
-          int thisStylistId = stylistQueryRdr.GetInt32(0);
-          string stylistName = stylistQueryRdr.GetString(1);
-          Stylist foundStylist = new Stylist(stylistName, thisStylistId);
-          stylists.Add(foundStylist);
+          int thisDepartmentId = departmentQueryRdr.GetInt32(0);
+          string departmentName = departmentQueryRdr.GetString(1);
+          Department foundDepartment = new Department(departmentName, thisDepartmentId);
+          departments.Add(foundDepartment);
         }
-        stylistQueryRdr.Dispose();
+        departmentQueryRdr.Dispose();
       }
       conn.Close();
       if (conn != null)
       {
         conn.Dispose();
       }
-      return stylists;
+      return departments;
     }
 
     public static List<Employee> SearchEmployee(string employeeName)
