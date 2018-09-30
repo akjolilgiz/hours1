@@ -1,0 +1,26 @@
+@model string
+<div class="container">
+
+<div class="container">
+  <br/>
+  <div class="row justify-content-center">
+    <div class="col-12 col-xs-10 col-md-8">
+      <form action="/@Model/search" method="post" class="card card-sm" >
+        <div class="card-body row no-gutters align-items-center">
+          <div class="col-auto">
+          </div>
+          <!--end of col-->
+          <div class="col">
+            <input id="@Model" name="searched" class="form-control search-input" type="text" placeholder="Search...">
+          </div>
+          <!--end of col-->
+          <div class="col-auto">
+            <button class="btn btn-secondary" type="submit">Search</button>
+          </div>
+          <!--end of col-->
+        </div>
+      </form>
+    </div>
+    <!--end of col-->
+  </div>
+</div>

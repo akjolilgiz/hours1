@@ -3,7 +3,12 @@
 }
 
 <h1>Name: @Model["selectedDepartment"].name</h1>
+
 <h3>Employees: </h3>
+@if (@Model["selectedDepartment"].GetEmployees().Count == 0)
+{
+  <h3>There is no employee in this department.</h3>
+}
 
   @foreach(var employee in @Model["departmentEmployees"])
   {
