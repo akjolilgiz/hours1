@@ -1,0 +1,167 @@
+body {
+  color: #BF927E;
+  background-color: #0f0f0f;
+  font-family: 'Noto Serif KR', sans-serif;
+}
+
+h4 {
+  font-size: 18px;
+}
+form {
+  margin: 3%;
+}
+
+div.card-body, form.card {
+  background-color: #0f0f0f;
+  border: none;
+}
+
+input.search-input{
+  width: 80%;
+  margin-left: 10%;
+}
+
+a.btn-info, button.btn-info {
+  color: #f0f0f0;
+  background-color: maroon;
+  margin-right: 1%;
+  border: 1px solid black;
+}
+
+button.btn-info:hover, a.btn-info:hover {
+    color: #fff;
+    background-color:	#b48811;
+    border-color: gray;
+}
+
+nav.navbar-gold {
+  color: #BF927E;
+  border-bottom: 2px double #BF927E;
+}
+
+nav a.navbar-brand{
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+div a{
+  color: #BF927E;
+}
+.nav-item {
+  margin-left: 5%;
+}
+nav a{
+  color: #BF927E;
+  font-size: 19px;
+  text-decoration: none;
+}
+
+div a:hover, nav a:hover{
+  color: #FAFAD2;
+}
+
+div.container-fluid {
+  padding-top: 3%;
+  margin-bottom: 3%;
+  text-align: center;
+  min-height: 1000px;
+}
+
+div.logo{
+  margin-top: 2%;
+}
+
+div.logo h1 {
+  font-size: 47px;
+  color: white;
+  letter-spacing: 0px;
+  margin-bottom: 0px;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+div.logo p {
+  font-size: 21px;
+  letter-spacing: 12px;
+  line-height: 1;
+  color: red;
+  margin-bottom: 5%;
+}
+
+img.header {
+  width: 100%;
+  height: 420px;
+  position:static;
+  z-index: -1;
+}
+
+a.btn-secondary {
+  background-color: #a2790d;
+  font-size: 0.6rem;
+}
+
+.foreach {
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+.foreach a:first-child {
+  font-size: 25px;
+  margin-right: 1%;
+}
+
+div.lists {
+  margin-left: 33%;
+  margin-right: 33%;
+  height: auto;
+  margin-top: 3%;
+  margin-bottom: 5%;
+}
+
+div h1 {
+  text-transform: uppercase;
+  margin-bottom: 3%;
+}
+
+div button {
+  margin-top: 3%;
+}
+
+form label, form select {
+  margin-left: 3%;
+}
+
+form input, form option {
+  border-color: #BF927E;
+}
+
+form button.btn-info {
+  background-color: #a2790d;
+}
+
+div.carousel-caption, .carousel-indicators {
+  background-color: black;
+  opacity: 0.7;
+  border-radius: 10px;
+}
+
+.footer-custom {
+  text-align: center;
+  opacity: 0.8;
+  color: white;
+  padding: 3%;
+  margin-top: 3%;
+  background-color:	#a2790d;
+  font-size: 13px;
+}
+
+footer .fa {
+    display: inline;
+    padding: 1px;
+    font-size: 25px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
