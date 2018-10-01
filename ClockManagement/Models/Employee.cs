@@ -8,11 +8,15 @@ namespace ClockManagement.Models
   {
     public int id {get; set;}
     public string name {get; set;}
+    public string username {get; set;}
+    public string password {get; set;}
 
-    public Employee (string Name, int employeeId=0)
+    public Employee (string Name, int employeeId=0, string username, string password)
     {
       id = employeeId;
       name = Name;
+      username = loginUsername;
+      password = loginPassword;
     }
 
     public override bool Equals(System.Object otherEmployee)
@@ -141,13 +145,17 @@ namespace ClockManagement.Models
 
       int employeeId = 0;
       string employeeName = "";
+      string username = "";
+      string password = "";
 
       while(rdr.Read())
       {
         employeeId = rdr.GetInt32(0);
         employeeName = rdr.GetString(1);
+        username = rdr.GetString(2);
+        passowrd = rdr.GetString(3);
       }
-      Employee foundEmployee = new Employee(employeeName, employeeId);
+      Employee foundEmployee = new Employee(employeeName, employeeId, username, password);
 
       conn.Close();
       if (conn != null)
@@ -290,6 +298,66 @@ namespace ClockManagement.Models
         conn.Dispose();
       }
       return allEmployees;
+    }
+
+    public static int Login(string userName, string password)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+
+      cmd.CommandText = @"SELECT * FROM users WHERE user_name = @userName;";
+
+      MySqlParameter userNameParameter = new MySqlParameter();
+      userNameParameter.ParameterName = "@userName";
+      userNameParameter.Value = userName;
+      cmd.Parameters.Add(userNameParameter);
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      int id = 0;
+      string databasePassword = "";
+      int sessionId = 0;
+      string databaseUserName = "";
+
+      while (rdr.Read())
+      {
+        id = rdr.GetInt32(0);
+        databaseUserName = rdr.GetString(4);
+        databasePassword = rdr.GetString(5);
+      }
+
+      rdr.Dispose();
+      if (password == databasePassword && userName == databaseUserName)
+      {
+        cmd.CommandText = @"INSERT INTO sessions (user_id, session_id) VALUES (@userId, @sessionId);";
+
+        MySqlParameter thisIdParameter = new MySqlParameter();
+        thisIdParameter.ParameterName = "@userId";
+        thisIdParameter.Value = id;
+        cmd.Parameters.Add(thisIdParameter);
+
+        MySqlParameter sessionIdParameter = new MySqlParameter();
+        sessionIdParameter.ParameterName = "@sessionId";
+        Random newRandom = new Random();
+        int randomNumber = newRandom.Next(100000000);
+        sessionIdParameter.Value = randomNumber;
+        cmd.Parameters.Add(sessionIdParameter);
+
+        cmd.ExecuteNonQuery();
+        sessionId = randomNumber;
+      }
+      else
+      {
+
+      }
+      conn.Close();
+      if (!(conn == null))
+      {
+        conn.Dispose();
+      }
+
+      return sessionId;
     }
   }
 }
