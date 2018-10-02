@@ -46,13 +46,16 @@ namespace ClockManagement.Controllers
       return RedirectToAction("Index");
     }
 
-    [HttpGet("employees/{employeeId}")]
+    [HttpGet("/employees/{employeeId}")]
     public ActionResult Details(int employeeId)
     {
       Dictionary<string, object> model = new Dictionary <string, object>();
       Employee selectedEmployee = Employee.Find(employeeId);
       List<Department> employeeDepartments = selectedEmployee.GetDepartments();
       List<Department> allDepartments = Department.GetAll();
+      Hour newHour = Hour.Find(selectedEmployee.id);
+
+      model.Add("newHour", newHour);
       model.Add("selectedEmployee", selectedEmployee);
       model.Add("employeeDepartments", employeeDepartments);
       model.Add("allDepartments", allDepartments);

@@ -13,29 +13,30 @@ namespace ClockManagement.Controllers
       return View(allHours);
     }
 
-    [HttpPost("employees/{id}/clockIn")]
+    [HttpPost("/employees/{id}/clockIn")]
     public ActionResult clockIn(int id)
     {
       Dictionary<string, object> model = new Dictionary <string, object>();
       Employee foundEmployee = Employee.Find(id);
-      Hour newHour = Hour.Find(foundEmployee.id);
-      newHour.ClockIn(foundEmployee.id);
-      model.Add("foundEmployee",foundEmployee);
-      model.Add("newHour", newHour);
-      return RedirectToAction("~/Views/Employee/Details", new {employeeId = foundEmployee.id});
+      Hour clockInHour = new Hour(foundEmployee.id);
+      clockInHour.Save(foundEmployee.id);
+      clockInHour.ClockIn(foundEmployee.id);
+      model.Add("foundEmployee", foundEmployee);
+      model.Add("clockInHour", clockInHour);
+      return RedirectToAction("Details","Employee", new {employeeId = foundEmployee.id});
     }
 
-    [HttpPost("employees/{id}/clockOut")]
+    [HttpPost("/employees/{id}/clockOut")]
     public ActionResult clockOut(int id)
     {
       Dictionary<string, object> model = new Dictionary <string, object>();
-      Employee foundEmployee = Employee.Find(id);
-      Hour newHour = Hour.Find(foundEmployee.id);
-      newHour.ClockOut(foundEmployee.id);
-      newHour.Hours(foundEmployee.id);
-      model.Add("foundEmployee",foundEmployee);
-      model.Add("newHour", newHour);
-      return RedirectToAction("Details");
+      Employee selectedEmployee = Employee.Find(id);
+      Hour clockOutHour = Hour.Find(selectedEmployee.id);
+      clockOutHour.ClockOut(selectedEmployee.id);
+      clockOutHour.Hours(selectedEmployee.id);
+      model.Add("selectedEmployee",selectedEmployee);
+      // model.Add("clockOutHour", clockOutHour);
+      return RedirectToAction("Details","Employee", new {employeeId = selectedEmployee.id});
     }
 
   }
