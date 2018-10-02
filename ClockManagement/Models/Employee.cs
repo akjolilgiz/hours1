@@ -11,7 +11,7 @@ namespace ClockManagement.Models
     public string username {get; set;}
     public string password {get; set;}
 
-    public Employee (string Name, int employeeId=0, string username, string password)
+    public Employee (string Name, string loginUsername, string loginPassword, int employeeId=0)
     {
       id = employeeId;
       name = Name;
@@ -51,10 +51,13 @@ namespace ClockManagement.Models
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-        string employeeName = rdr.GetString(1);
         int employeeId = rdr.GetInt32(0);
+        string employeeName = rdr.GetString(1);
+        string employeeUsername = rdr.GetString(2);
+        string employeeUserPassword = rdr.GetString(3);
 
-        Employee newEmployee = new Employee(employeeName, employeeId);
+
+        Employee newEmployee = new Employee(employeeName, employeeUsername, employeeUserPassword, employeeId);
         allEmployees.Add(newEmployee);
       }
 
@@ -153,9 +156,9 @@ namespace ClockManagement.Models
         employeeId = rdr.GetInt32(0);
         employeeName = rdr.GetString(1);
         username = rdr.GetString(2);
-        passowrd = rdr.GetString(3);
+        password = rdr.GetString(3);
       }
-      Employee foundEmployee = new Employee(employeeName, employeeId, username, password);
+      Employee foundEmployee = new Employee(employeeName, username, password, employeeId);
 
       conn.Close();
       if (conn != null)
@@ -287,8 +290,10 @@ namespace ClockManagement.Models
       {
         int employeeId = rdr.GetInt32(0);
         string employeesName = rdr.GetString(1);
+        string employeesUserName = rdr.GetString(2);
+        string employeesUserPassword = rdr.GetString(3);
 
-        Employee newEmployee = new Employee (employeesName, employeeId);
+        Employee newEmployee = new Employee (employeesName, employeesUserName, employeesUserPassword, employeeId);
         allEmployees.Add(newEmployee);
 
       }
