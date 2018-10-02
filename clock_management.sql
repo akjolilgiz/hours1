@@ -122,7 +122,7 @@ ALTER TABLE `departments`
 --
 -- AUTO_INCREMENT for table `departments_employeess`
 --
-ALTER TABLE `departments_employeess`
+ALTER TABLE `departments_employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
