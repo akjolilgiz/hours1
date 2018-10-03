@@ -81,9 +81,9 @@ namespace ClockManagement.Models
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"UPDATE employees_hours SET clock_in = @clockIn WHERE employee_id = @searchId;";
+        cmd.CommandText = @"INSERT INTO employees_hours (clock_in, employee_id) VALUES (@clockIn, @employee_id);";
         cmd.Parameters.AddWithValue("@clockIn", DateTime.Now);
-        cmd.Parameters.AddWithValue("@searchId", id);
+        cmd.Parameters.AddWithValue("@employee_id", id);
 
 
         cmd.ExecuteNonQuery();
@@ -103,7 +103,7 @@ namespace ClockManagement.Models
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"UPDATE employees_hours SET clock_out = @clockOut WHERE employee_id = @newId;";
+        cmd.CommandText = @"SELECT TOP 1 * FROM employees_hours ORDER BY Id DESC; UPDATE employees_hours SET clock_out = @clockOut WHERE employee_id = @newId;";
         cmd.Parameters.AddWithValue("@clockOut", DateTime.Now);
         cmd.Parameters.AddWithValue("@newId", id);
 
@@ -124,7 +124,7 @@ namespace ClockManagement.Models
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"UPDATE employees_hours SET hours = TIMEDIFF( clock_out, clock_in) WHERE employee_id = @thisId;";
+        cmd.CommandText = @"UPDATE employees_hours SET hours = TIMEDIFF( clock_out, clock_in) WHERE id = @thisId;";
 
         cmd.Parameters.AddWithValue("@thisId", id);
 
@@ -138,6 +138,7 @@ namespace ClockManagement.Models
           conn.Dispose();
         }
       }
+
 
 
       public static Hour Find(int id)
@@ -269,7 +270,7 @@ namespace ClockManagement.Models
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"SELECT `employee_id`, `clock_in`, `clock_out`, TIMEDIFF(`clock_out`, `clock_in`) AS TIMEDIFF
+        cmd.CommandText = @"SELECT `id`, `clock_in`, `clock_out`, TIMEDIFF(`clock_out`, `clock_in`) AS TIMEDIFF
         FROM employees_hours WHERE employee_id = @searchId;";
 
         cmd.Parameters.AddWithValue("@searchId", id);
@@ -292,6 +293,5 @@ namespace ClockManagement.Models
         }
         return employeeShifts;
       }
-
   }
 }

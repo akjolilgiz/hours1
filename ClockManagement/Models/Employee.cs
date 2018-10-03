@@ -343,25 +343,24 @@ namespace ClockManagement.Models
     //      return allHours;
     //    }
     //  }
-    public List<Hour> GetHours()
+    public List<Hour> GetHours(int id)
     {
       List<Hour> allHours = new List<Hour> {};
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"SELECT * FROM employees_hours WHERE employee_id = @searchId;";
-      cmd.Parameters.AddWithValue("@searchId", this.id);
+      cmd.Parameters.AddWithValue("@searchId", id);
 
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-
-        TimeSpan employeeHours = rdr.GetTimeSpan(3);
-        int employeeId = rdr.GetInt32(4);
-        DateTime employeeClockIn = rdr.GetDateTime(1);
-        DateTime employeeClockOut = rdr.GetDateTime(2);
         int hourId = rdr.GetInt32(0);
+        DateTime? employeeClockIn = rdr.GetDateTime(1);
+        DateTime? employeeClockOut = rdr.GetDateTime(2);
+        TimeSpan? employeeHours = rdr.GetTimeSpan(3);
+        int employeeId = rdr.GetInt32(4);
 
         Hour newHour = new Hour(employeeId, employeeClockIn, employeeClockOut, employeeHours, hourId);
         allHours.Add(newHour);

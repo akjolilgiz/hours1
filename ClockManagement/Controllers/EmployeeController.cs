@@ -68,12 +68,12 @@ namespace ClockManagement.Controllers
     {
       Dictionary<string, object> model = new Dictionary <string, object>();
       Employee selectedEmployee = Employee.Find(employeeId);
-      List<Hour> allHours = selectedEmployee.GetHours();
+      List<Hour> allHours = selectedEmployee.GetHours(employeeId);
       Hour newHour = Hour.Find(selectedEmployee.id);
       model.Add("newHour", newHour);
       model.Add("selectedEmployee", selectedEmployee);
       model.Add("allHours", allHours);
-      return View(model);
+      return View("Hours", model);
     }
 
     [HttpPost("/employees/{employeeId}")]

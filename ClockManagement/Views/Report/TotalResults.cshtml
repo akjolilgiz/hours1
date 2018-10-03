@@ -7,9 +7,7 @@
 
 @foreach(var shift in @Model["totalHours"])
 {
-  <ul>
-    <li>@shift.clock_in</li>
-    <li>@shift.clock_out</li>
-    <li>@shift.hours</li>
-  </ul>
+
+    <li>@shift.hours, @shift.clock_out, @shift.clock_in</li>
+
 }
