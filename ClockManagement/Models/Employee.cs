@@ -69,28 +69,54 @@ namespace ClockManagement.Models
       return allEmployees;
     }
 
-    public void Save()
-    {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-
-      var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO employees (name) VALUES (@name);";
-
-      MySqlParameter employeeName = new MySqlParameter();
-      employeeName.ParameterName = "@name";
-      employeeName.Value = this.name;
-      cmd.Parameters.Add(employeeName);
-
-      cmd.ExecuteNonQuery();
-      id = (int) cmd.LastInsertedId;
-
-      conn.Close();
-      if (conn != null)
+    public static bool Login(string userName, string password)
       {
-        conn.Dispose();
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+
+        MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+
+        cmd.CommandText = @"SELECT * FROM employees WHERE username = @searchName AND password = @searchPassword;";
+
+        cmd.Parameters.AddWithValue("@searchName", userName);
+        cmd.Parameters.AddWithValue("@searchPassword", password);
+
+        MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+        if(rdr.Read())
+        {
+        // Login Pass
+        return true;
+        }
+        else
+        {
+        //Login fail
+        return false;
+        }
       }
-    }
+
+      public void Save()
+        {
+          MySqlConnection conn = DB.Connection();
+          conn.Open();
+
+          var cmd = conn.CreateCommand() as MySqlCommand;
+          cmd.CommandText = @"INSERT INTO employees (name, username, password) VALUES (@name, @username, @password);";
+
+          cmd.Parameters.AddWithValue("@name", this.name);
+          cmd.Parameters.AddWithValue("@username", this.username);
+          cmd.Parameters.AddWithValue("@password", this.password);
+
+
+          cmd.ExecuteNonQuery();
+          id = (int) cmd.LastInsertedId;
+
+          conn.Close();
+          if (conn != null)
+          {
+            conn.Dispose();
+          }
+        }
 
     public static void Delete(int id)
     {
@@ -168,26 +194,20 @@ namespace ClockManagement.Models
       return foundEmployee;
     }
 
-    public void Edit(string employeeName)
+    public void Edit(string employeeName, string employeeUserName, string employeeUserPassword)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
 
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"UPDATE employees SET name = @newEmployeeName WHERE id = @searchId;";
+      cmd.CommandText = @"UPDATE employees SET name = @newEmployeeName, username = @newEmployeeUserName, password = @newEmployeeUserPassword WHERE id = @searchId;";
+      cmd.Parameters.AddWithValue("@searchId", this.id);
+      cmd.Parameters.AddWithValue("@newEmployeeName", employeeName);
+      cmd.Parameters.AddWithValue("@newEmployeeUserName", employeeUserName);
+      cmd.Parameters.AddWithValue("@newEmployeeUserPassword", employeeUserPassword);
 
-      MySqlParameter searchId = new MySqlParameter();
-      searchId.ParameterName = "@searchId";
-      searchId.Value = this.id;
-      cmd.Parameters.Add(searchId);
-
-      MySqlParameter newEmployeeName = new MySqlParameter();
-      newEmployeeName.ParameterName = "@newEmployeeName";
-      newEmployeeName.Value = employeeName;
-      cmd.Parameters.Add(newEmployeeName);
 
       cmd.ExecuteNonQuery();
-      this.name = employeeName;
 
       conn.Close();
       if (conn != null)
@@ -305,64 +325,5 @@ namespace ClockManagement.Models
       return allEmployees;
     }
 
-    public static int Login(string userName, string password)
-    {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-
-      cmd.CommandText = @"SELECT * FROM users WHERE user_name = @userName;";
-
-      MySqlParameter userNameParameter = new MySqlParameter();
-      userNameParameter.ParameterName = "@userName";
-      userNameParameter.Value = userName;
-      cmd.Parameters.Add(userNameParameter);
-
-      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-
-      int id = 0;
-      string databasePassword = "";
-      int sessionId = 0;
-      string databaseUserName = "";
-
-      while (rdr.Read())
-      {
-        id = rdr.GetInt32(0);
-        databaseUserName = rdr.GetString(4);
-        databasePassword = rdr.GetString(5);
-      }
-
-      rdr.Dispose();
-      if (password == databasePassword && userName == databaseUserName)
-      {
-        cmd.CommandText = @"INSERT INTO sessions (user_id, session_id) VALUES (@userId, @sessionId);";
-
-        MySqlParameter thisIdParameter = new MySqlParameter();
-        thisIdParameter.ParameterName = "@userId";
-        thisIdParameter.Value = id;
-        cmd.Parameters.Add(thisIdParameter);
-
-        MySqlParameter sessionIdParameter = new MySqlParameter();
-        sessionIdParameter.ParameterName = "@sessionId";
-        Random newRandom = new Random();
-        int randomNumber = newRandom.Next(100000000);
-        sessionIdParameter.Value = randomNumber;
-        cmd.Parameters.Add(sessionIdParameter);
-
-        cmd.ExecuteNonQuery();
-        sessionId = randomNumber;
-      }
-      else
-      {
-
-      }
-      conn.Close();
-      if (!(conn == null))
-      {
-        conn.Dispose();
-      }
-
-      return sessionId;
-    }
   }
 }
