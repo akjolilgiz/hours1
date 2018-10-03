@@ -39,5 +39,28 @@ namespace ClockManagement.Controllers
       return RedirectToAction("Details","Employee", new {employeeId = selectedEmployee.id});
     }
 
+    [HttpGet("/reports")]
+    public ActionResult AllReports()
+    {
+      return View("~/Views/Report/Index.cshtml");
+    }
+
+    [HttpGet("/totalshiftsperaccount")]
+    public ActionResult TotalShiftsPerAccount()
+    {
+      List<Employee> allEmployees = Employee.GetAll();
+      return View("~/Views/Report/TotalShiftsPerAccount.cshtml", allEmployees);
+    }
+
+    [HttpPost("/totalshiftsperaccount")]
+    public ActionResult EmployeeShift(int employeeId)
+    {
+      Dictionary<string, object> model = new Dictionary<string,object>();
+      Employee selectedEmployee = Employee.Find(employeeId);
+      List<Hour> totalHours = Hour.TotalHours(employeeId);
+      model.Add("selectedEmployee", selectedEmployee);
+      model.Add("totalHours", totalHours);
+      return View("~/Views/Report/TotalResults.cshtml", model);
+    }
   }
 }

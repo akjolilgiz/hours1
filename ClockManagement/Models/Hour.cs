@@ -261,5 +261,37 @@ namespace ClockManagement.Models
           conn.Dispose();
         }
       }
+
+      public static List<Hour> TotalHours(int id)
+      {
+        List<Hour> employeeShifts = new List<Hour> ();
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT `employee_id`, `clock_in`, `clock_out`, TIMEDIFF(`clock_out`, `clock_in`) AS TIMEDIFF
+        FROM employees_hours WHERE employee_id = @searchId;";
+
+        cmd.Parameters.AddWithValue("@searchId", id);
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
+        {
+          TimeSpan employeeHours = rdr.GetTimeSpan(3);
+          int employeeId = rdr.GetInt32(0);
+          DateTime employeeClockIn = rdr.GetDateTime(1);
+          DateTime employeeClockOut = rdr.GetDateTime(2);
+
+          Hour shifts = new Hour(employeeId, employeeClockIn, employeeClockOut, employeeHours);
+          employeeShifts.Add(shifts);
+        }
+
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return employeeShifts;
+      }
+
   }
 }

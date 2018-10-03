@@ -1,0 +1,17 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>Total Hours</h1>
+<form action="/totalshiftsperaccount" method="post">
+  <div class="form-group">
+    <label for="employeeId">View Employee's Hours: </label>
+    <select id="employeeId" name="employeeId">
+    @foreach(var employee in Model)
+    {
+      <option class="form-control" value="@employee.id">@employee.name</option>
+    }
+    </select>
+  </div>
+  <button type="submit" class="btn btn-info">Submit</button>
+</form>

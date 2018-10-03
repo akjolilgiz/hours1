@@ -1,0 +1,15 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>test</h1>
+<h1>@Model["selectedEmployee"].name Shifts</h1>
+
+@foreach(var shift in @Model["totalHours"])
+{
+  <ul>
+    <li>@shift.clock_in</li>
+    <li>@shift.clock_out</li>
+    <li>@shift.hours</li>
+  </ul>
+}
