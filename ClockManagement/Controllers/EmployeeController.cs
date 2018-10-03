@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ClockManagement.Models;
+using System;
 using System.Collections.Generic;
 
 namespace ClockManagement.Controllers
@@ -55,11 +56,23 @@ namespace ClockManagement.Controllers
       List<Department> employeeDepartments = selectedEmployee.GetDepartments();
       List<Department> allDepartments = Department.GetAll();
       Hour newHour = Hour.Find(selectedEmployee.id);
-
       model.Add("newHour", newHour);
       model.Add("selectedEmployee", selectedEmployee);
       model.Add("employeeDepartments", employeeDepartments);
       model.Add("allDepartments", allDepartments);
+      return View(model);
+    }
+
+    [HttpGet("/employees/{employeeId}/hours")]
+    public ActionResult Hours(int employeeId)
+    {
+      Dictionary<string, object> model = new Dictionary <string, object>();
+      Employee selectedEmployee = Employee.Find(employeeId);
+      List<Hour> allHours = selectedEmployee.GetHours();
+      Hour newHour = Hour.Find(selectedEmployee.id);
+      model.Add("newHour", newHour);
+      model.Add("selectedEmployee", selectedEmployee);
+      model.Add("allHours", allHours);
       return View(model);
     }
 

@@ -124,7 +124,7 @@ namespace ClockManagement.Models
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"UPDATE employees_hours SET hours = TIMEDIFF( clock_in, clock_out) WHERE employee_id = @thisId;";
+        cmd.CommandText = @"UPDATE employees_hours SET hours = TIMEDIFF( clock_out, clock_in) WHERE employee_id = @thisId;";
 
         cmd.Parameters.AddWithValue("@thisId", id);
 

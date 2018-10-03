@@ -7,8 +7,11 @@ body {
 h4 {
   font-size: 18px;
 }
+
 form {
-  margin: 3%;
+  /*Changed margin-top from 3% to 0%display:inline*/
+  margin-top: 0px;
+  display: inline;
 }
 
 div.card-body, form.card {
@@ -121,11 +124,11 @@ div.lists {
 
 div h1 {
   text-transform: uppercase;
-  margin-bottom: 3%;
+  margin-bottom: 0%;
 }
 
 div button {
-  margin-top: 3%;
+  margin-top: 0%;
 }
 
 form label, form select {
@@ -134,10 +137,14 @@ form label, form select {
 
 form input, form option {
   border-color: #BF927E;
+  /*change display inline*/
+  display: inline;
 }
 
 form button.btn-info {
   background-color: #a2790d;
+  /*change display inline*/
+  display: inline;
 }
 
 div.carousel-caption, .carousel-indicators {

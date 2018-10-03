@@ -1,0 +1,14 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>@Model["selectedEmployee"].name timesheet</h1>
+</br>
+
+<p><h3>Hours:
+
+  @foreach(var time in @Model["allHours"])
+  {
+    <li>@time.clock_in</li>
+  }
+</h3></p>
